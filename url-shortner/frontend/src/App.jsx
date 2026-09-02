@@ -1,9 +1,32 @@
+import { useRef } from "react";
 import ShortenForm from "./components/ShortenForm.jsx";
+import StarField from "./components/StarField.jsx";
 import "./App.css";
 
 function App() {
+  const cardRef = useRef(null);
+
+  function handleMouseMove(event) {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    card.style.setProperty("--rx", `${(-y * 6).toFixed(2)}deg`);
+    card.style.setProperty("--ry", `${(x * 6).toFixed(2)}deg`);
+  }
+
+  function handleMouseLeave() {
+    const card = cardRef.current;
+    if (!card) return;
+    card.style.setProperty("--rx", "0deg");
+    card.style.setProperty("--ry", "0deg");
+  }
+
   return (
     <div className="page">
+      <StarField />
+
       <header className="brand">
         <svg
           className="brand-mark"
@@ -41,7 +64,15 @@ function App() {
         <p className="subhead">
           No sign-up. Your link stays live until you decide otherwise.
         </p>
-        <ShortenForm />
+
+        <div
+          className="tilt-card"
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
+          <ShortenForm />
+        </div>
       </main>
     </div>
   );
