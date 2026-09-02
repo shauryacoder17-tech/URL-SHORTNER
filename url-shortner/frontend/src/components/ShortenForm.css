@@ -1,0 +1,128 @@
+.shorten {
+  width: 100%;
+  max-width: 560px;
+}
+
+.shorten-form {
+  display: flex;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 1px 2px rgba(20, 20, 15, 0.04);
+}
+
+.shorten-form input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--ink);
+  min-width: 0;
+}
+
+.shorten-form input::placeholder {
+  color: var(--muted);
+}
+
+.shorten-form input:focus {
+  outline: none;
+}
+
+.shorten-form button {
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0 22px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.shorten-form button:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+.shorten-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.shorten-error {
+  margin: 12px 4px 0;
+  color: #b3261e;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.shorten-result {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  animation: reveal 0.28s ease-out;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.shorten-result-url {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--accent-dark);
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.shorten-result-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.qr-panel {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  animation: reveal 0.2s ease-out;
+}
+
+.copy-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease;
+}
+
+.copy-btn:hover {
+  border-color: var(--accent);
+}
