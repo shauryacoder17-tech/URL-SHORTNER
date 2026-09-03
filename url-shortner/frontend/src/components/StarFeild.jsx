@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import "./StarField.css";
+import "./App.css";
 
 function useStars(count) {
   return useMemo(
