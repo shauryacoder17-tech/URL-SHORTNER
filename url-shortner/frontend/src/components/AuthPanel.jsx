@@ -33,7 +33,7 @@ function AuthPanel({ session, onAuth }) {
 
     try {
       if (needsVerification) {
-        const data = await request("verify-email", { email, code });
+        const data = await request("verify-otp", { email, code });
         onAuth(data);
         return;
       }
@@ -57,7 +57,7 @@ function AuthPanel({ session, onAuth }) {
     setError("");
     setMessage("");
     try {
-      const data = await request("resend-code", { email });
+      const data = await request("resend-otp", { email });
       setMessage(data.message);
     } catch (requestError) {
       setError(requestError.message);
