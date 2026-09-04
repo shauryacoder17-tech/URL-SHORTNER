@@ -9,7 +9,19 @@ async function request(path, body) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  const data = await response.json();
+  const responseText = await response.text();
+  let data;
+
+  try {
+    data = JSON.parse(responseText);
+  } catch {
+    throw new Error(
+      response.ok
+        ? "The server returned an invalid response."
+        : `The API server is unavailable (HTTP ${response.status}).`,
+    );
+  }
+
   if (!response.ok) throw new Error(data.error || "Something went wrong.");
   return data;
 }
@@ -105,7 +117,9 @@ function AuthPanel({ session, onAuth }) {
       <form onSubmit={handleSubmit}>
         {needsVerification ? (
           <>
-            <p className="auth-prompt">Enter the 6-digit code sent to {email}.</p>
+            <p className="auth-prompt">
+              Enter the 6-digit code sent to {email}.
+            </p>
             <input
               value={code}
               onChange={(event) => setCode(event.target.value)}
@@ -151,7 +165,11 @@ function AuthPanel({ session, onAuth }) {
               required
             />
             <button type="submit" disabled={loading}>
-              {loading ? "Please wait..." : mode === "login" ? "Sign in" : "Send verification code"}
+              {loading
+                ? "Please wait..."
+                : mode === "login"
+                  ? "Sign in"
+                  : "Send verification code"}
             </button>
           </>
         )}
