@@ -24,14 +24,6 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  verificationCodeHash: {
-    type: String,
-    select: false,
-  },
-  verificationCodeExpiresAt: {
-    type: Date,
-    select: false,
-  },
   createdAt: {
     type: Date,
     default: Date.now,
