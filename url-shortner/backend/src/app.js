@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import authRoutes from "./routes/auth.routes.js";
 import urlRoutes from "./routes/url.routes.js";
 
 const app = express();
@@ -15,6 +16,7 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
+app.use("/api/auth", authRoutes);
 app.use(urlRoutes);
 
 app.use((req, res) => {

@@ -1,10 +1,32 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import AuthPanel from "./components/AuthPanel.jsx";
 import ShortenForm from "./components/ShortenForm.jsx";
 import StarField from "./components/StarField.jsx";
 import "./App.css";
 
 function App() {
   const cardRef = useRef(null);
+  const [session, setSession] = useState(() => {
+    const token = localStorage.getItem("url-shortener-token");
+    const user = localStorage.getItem("url-shortener-user");
+    return token && user ? { token, user: JSON.parse(user) } : null;
+  });
+
+  function handleAuth(nextSession) {
+    if (!nextSession) {
+      localStorage.removeItem("url-shortener-token");
+      localStorage.removeItem("url-shortener-user");
+      setSession(null);
+      return;
+    }
+
+    localStorage.setItem("url-shortener-token", nextSession.token);
+    localStorage.setItem(
+      "url-shortener-user",
+      JSON.stringify(nextSession.user),
+    );
+    setSession(nextSession);
+  }
 
   function handleMouseMove(event) {
     const card = cardRef.current;
@@ -62,17 +84,21 @@ function App() {
       <main className="hero">
         <h1>Paste a long link, get a short one.</h1>
         <p className="subhead">
-          No sign-up. Your link stays live until you decide otherwise.
+          Verify your email to keep every shortened link in your account.
         </p>
 
-        <div
-          className="tilt-card"
-          ref={cardRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-        >
-          <ShortenForm />
-        </div>
+        <AuthPanel session={session} onAuth={handleAuth} />
+
+        {session && (
+          <div
+            className="tilt-card"
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
+            <ShortenForm token={session.token} />
+          </div>
+        )}
       </main>
     </div>
   );

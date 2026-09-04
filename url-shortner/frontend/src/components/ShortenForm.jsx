@@ -13,7 +13,7 @@ function isLikelyUrl(value) {
   }
 }
 
-function ShortenForm() {
+function ShortenForm({ token }) {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState(null);
   const [status, setStatus] = useState("idle"); // idle | loading | error
@@ -38,7 +38,10 @@ function ShortenForm() {
     try {
       const response = await fetch(`${API_URL}/api/shorten`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ originalUrl: longUrl }),
       });
 

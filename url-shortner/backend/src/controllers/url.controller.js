@@ -27,7 +27,11 @@ export async function shortenUrl(req, res) {
     existing = await Url.findOne({ shortCode });
   }
 
-  const url = await Url.create({ originalUrl, shortCode });
+  const url = await Url.create({
+    userId: req.user.id,
+    originalUrl,
+    shortCode,
+  });
 
   return res.status(201).json({
     shortUrl: `${BASE_URL}/${url.shortCode}`,
