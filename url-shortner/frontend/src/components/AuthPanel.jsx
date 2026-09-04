@@ -33,7 +33,7 @@ function AuthPanel({ session, onAuth }) {
 
     try {
       if (needsVerification) {
-        const data = await request("verify-otp", { email, code });
+        const data = await request("verify-email", { email, code });
         onAuth(data);
         return;
       }
@@ -57,7 +57,7 @@ function AuthPanel({ session, onAuth }) {
     setError("");
     setMessage("");
     try {
-      const data = await request("resend-otp", { email });
+      const data = await request("resend-code", { email });
       setMessage(data.message);
     } catch (requestError) {
       setError(requestError.message);
@@ -105,9 +105,7 @@ function AuthPanel({ session, onAuth }) {
       <form onSubmit={handleSubmit}>
         {needsVerification ? (
           <>
-            <p className="auth-prompt">
-              Enter the 6-digit code sent to {email}.
-            </p>
+            <p className="auth-prompt">Enter the 6-digit code sent to {email}.</p>
             <input
               value={code}
               onChange={(event) => setCode(event.target.value)}
@@ -153,11 +151,7 @@ function AuthPanel({ session, onAuth }) {
               required
             />
             <button type="submit" disabled={loading}>
-              {loading
-                ? "Please wait..."
-                : mode === "login"
-                  ? "Sign in"
-                  : "Send verification code"}
+              {loading ? "Please wait..." : mode === "login" ? "Sign in" : "Send verification code"}
             </button>
           </>
         )}
